@@ -44,12 +44,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy product" do
-    assert_raises ActiveRecord::RecordNotDestroyed do
-      delete product_url(products(:two))
-    end
-
+    # Try to delete a product that has line items - should fail and redirect
+    delete product_url(products(:two))
+    assert_redirected_to products_url
+    assert_match /Cannot delete product/, flash[:alert]
     assert Product.exists?(products(:two).id)
     
+    # Delete a product without line items - should succeed
     assert_difference("Product.count", -1) do
       delete product_url(@product)
     end

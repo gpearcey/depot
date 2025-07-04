@@ -58,7 +58,7 @@ class ProductTest < ActiveSupport::TestCase
     product.image.attach(io: File.open("test/fixtures/files/lorem.jpg"),
     filename: "lorem.jpg", content_type: "image/jpeg")
     assert product.invalid?
-    assert_equal [ I18n.translate("errors.messages.taken") ],
+    assert_equal ["already exists. Please choose a different title."],
 product.errors[:title]
   end
 end
