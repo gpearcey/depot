@@ -42,10 +42,28 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy line_item" do
+    # Test deleting a line item that empties the cart
     assert_difference("LineItem.count", -1) do
       delete line_item_url(@line_item)
     end
 
-    assert_redirected_to line_items_url
+    # Should redirect to store index when cart becomes empty
+    assert_redirected_to store_index_url
+    assert_equal "Your cart is now empty.", flash[:notice]
+  end
+
+  test "should destroy line_item and redirect to cart when items remain" do
+    # Add another item to the cart so it won't be empty after deletion
+    cart = @line_item.cart
+    product = products(:two)
+    cart.add_product(product).save!
+
+    assert_difference("LineItem.count", -1) do
+      delete line_item_url(@line_item)
+    end
+
+    # Should redirect back to cart when items remain
+    assert_redirected_to cart_url(cart)
+    assert_equal "Item removed from cart.", flash[:notice]
   end
 end
