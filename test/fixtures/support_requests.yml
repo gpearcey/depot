@@ -1,0 +1,12 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: customer@example.com
+  subject: Help with my order
+  body: I need help with my recent order
+  order: one
+
+two:
+  email: user@example.com
+  subject: Product question
+  body: I have a question about a product
