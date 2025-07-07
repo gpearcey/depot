@@ -72,3 +72,6 @@ product.image.attach(io: File.open(
     filename: 'nrclient2.jpg')
 
 product.save!
+
+User.create! name: 'grace',
+  password: Rails.application.credentials.grace_password
